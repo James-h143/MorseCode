@@ -1,0 +1,23 @@
+{
+  "name": "morse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "morse",
+  "scripts": {
+    "test": "./morse"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesHennigan/MorseCode.git"
+  },
+  "author": "James Hennigan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesHennigan/MorseCode/issues"
+  },
+  "homepage": "https://github.com/JamesHennigan/MorseCode#readme",
+  "dependencies": {
+    "onoff": "^5.0.0",
+    "sleep": "^6.1.0"
+  }
+}
