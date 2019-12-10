@@ -1,0 +1,96 @@
+#!/usr/bin/env node
+var gpio = require("onoff").Gpio;
+var gpio4 = new gpio(4,"out");
+var gpio17 = new gpio(17,"out");
+var sleep = require("sleep")
+var args = process.argv;
+var millis;
+
+var morse = {
+	'a':'.-',
+	'b':'-...',
+	'c':'-.-.',
+	'd':'-..',
+	'e':'.',
+	'f':'..-.',
+	'g':'--.',
+	'h':'....',
+	'i':'..',
+	'j':'.---',
+	'k':'-.-',
+	'l':'.-..',
+	'm':'--',
+	'n':'-.',
+	'o':'---',
+	'p':'.--.',
+	'q':'--.-',
+	'r':'.-.',
+	's':'...',
+	't':'-',
+	'u':'..-',
+	'v':'...-',
+	'w':'.--',
+	'x':'-..-',
+	'y':'-.--',
+	'z':'--..',
+	'1':'.----',
+	'2':'..---',
+	'3':'...--',
+	'4':'....-',
+	'5':'.....',
+	'6':'-....',
+	'7':'--...',
+	'8':'---..',
+	'9':'----.',
+	'0':'-----'
+}
+
+function flash(duration){
+	gpio4.writeSync(1);
+	gpio17.writeSync(1);
+	sleep.msleep(duration);
+	gpio4.writeSync(0);
+	gpio17.writeSync(0);
+}
+
+function writeLetter(letter){
+	morseLetter = morse[letter.toLowerCase()];
+	console.log(letter+": "+morseLetter)
+	aMorseLetter = morseLetter.split("");
+	aMorseLetter.forEach((dotOrDash)=>{
+		switch(dotOrDash){
+			case '.':
+				flash(100);
+				break;
+			case '-':
+				flash(300);
+				break;
+			default:
+				console.log("Unrecognised value returned from morse conversion obj: "+dotOrDash);
+		}
+		sleep.msleep(100)
+	})
+	sleep.msleep(300);
+}
+
+silentNight = "Silent night holy night All is calm all is bright Round yon Virgin Mother Mother and Child Holy infant so tender and mild Sleep in heavenly peace Sleep in heavenly Sleep in heavenly Sleep in heavenly Sleep in heavenly Sleep in heavenly peace Silent night holy night All is calm all is bright Round yon Virgin Mother Mother and Child Holy infant so"
+
+function writeWord(word){
+	aWord = word.split("");
+	console.log(word);
+	aWord.forEach(letter =>{
+		writeLetter(letter);
+	})
+}
+
+function main(){
+	while(true){
+		gpio4.writeSync(1);
+		aSong = silentNight.split(" ");
+		aSong.forEach(word =>{
+			writeWord(word);
+			sleep.msleep(700);
+		})
+	}
+}
+main();
